@@ -25,12 +25,18 @@ export default function App() {
       // onPanResponderMove: Animated.event([null, {dx: pan.x, dy: pan.y}]),
       onPanResponderMove: (_, gesture) => {
         // console.log('ARGS', args);
+        // gesture.dx contains the delta value from the initial position
         pan.x.setValue(gesture.dx);
         pan.y.setValue(gesture.dy);
       },
       onPanResponderRelease: () => {
         // without flattenOffset()... it becomes bucky...
+        // explanation: When you release you finger, whan flattenOffset does is that it would add the offset to the main value and clear off the offset.
+        // Because when you start moving again it's going to supply the delta value, but then you need the record of the previous value.
+        // Because your transforms are not relative to your last position. they are absolute transforms
+        console.log({...pan.x}, 'BEFORE');
         pan.flattenOffset();
+        console.log({...pan.x}, 'AFTER');
       },
     }),
   );
