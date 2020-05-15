@@ -22,14 +22,20 @@ export default function App() {
           y: pan.y._value,
         });
       },
-      onPanResponderMove: Animated.event([null, {dx: pan.x, dy: pan.y}]),
+      // onPanResponderMove: Animated.event([null, {dx: pan.x, dy: pan.y}]),
+      onPanResponderMove: (_, gesture) => {
+        // console.log('ARGS', args);
+        pan.x.setValue(gesture.dx);
+        pan.y.setValue(gesture.dy);
+      },
       onPanResponderRelease: () => {
+        // without flattenOffset()... it becomes bucky...
         pan.flattenOffset();
       },
     }),
   );
-  console.log(panResponder.panHandlers);
-  console.log(pan.getLayout());
+  console.log('panResponder', panResponder.panHandlers);
+  console.log('pan', pan.getLayout());
   return (
     <View style={{alignItems: 'center', justifyContent: 'center', flex: 1}}>
       <Animated.View
@@ -37,10 +43,18 @@ export default function App() {
           {
             width: 100,
             height: 100,
+
+            // method 2
+            // top: pan.y,
+            // left: pan.x,
+
+            // method 3: using Transform
+            transform: [{translateX: pan.x}, {translateY: pan.y}],
             borderRadius: 100 / 2,
             backgroundColor: 'red',
           },
-          pan.getLayout(),
+          // method 1
+          // pan.getLayout(),
         ]}
         {...panResponder.panHandlers}
       />
