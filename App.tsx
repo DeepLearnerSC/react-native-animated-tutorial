@@ -1,118 +1,42 @@
 /**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * Generated with the TypeScript template
- * https://github.com/react-native-community/react-native-template-typescript
- *
- * @format
+ * https://www.youtube.com/watch?v=KnH2D-1EG-A&list=PLYxzS__5yYQmdfEyKDrlG5E0F0u7_iIUo&index=5
  */
 
-import React from 'react';
-import {
-  SafeAreaView,
-  StyleSheet,
-  ScrollView,
-  View,
-  Text,
-  StatusBar,
-} from 'react-native';
-
-import {
-  Header,
-  LearnMoreLinks,
-  Colors,
-  DebugInstructions,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-
-declare const global: {HermesInternal: null | {}};
+import React, {useState} from 'react';
+import {View, Animated, TouchableOpacity, Text} from 'react-native';
 
 const App = () => {
+  const [value] = useState(new Animated.ValueXY({x: 0, y: 0}));
+  const [toggle, setToggle] = useState(false);
+
+  function moveBall(arg: Boolean) {
+    Animated.timing(value, {
+      toValue: arg ? {x: 100, y: 100} : {x: 0, y: 0},
+      duration: 1000,
+      useNativeDriver: false,
+    }).start();
+    setToggle(arg);
+    console.log('move ball ', arg);
+  }
+  console.log('app rendering');
   return (
-    <>
-      <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          style={styles.scrollView}>
-          <Header />
-          {global.HermesInternal == null ? null : (
-            <View style={styles.engine}>
-              <Text style={styles.footer}>Engine: Hermes</Text>
-            </View>
-          )}
-          <View style={styles.body}>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Step One</Text>
-              <Text style={styles.sectionDescription}>
-                Edit <Text style={styles.highlight}>App.tsx</Text> to change
-                this screen and then come back to see your edits.
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>See Your Changes</Text>
-              <Text style={styles.sectionDescription}>
-                <ReloadInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Debug</Text>
-              <Text style={styles.sectionDescription}>
-                <DebugInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Learn More</Text>
-              <Text style={styles.sectionDescription}>
-                Read the docs to discover what to do next:
-              </Text>
-            </View>
-            <LearnMoreLinks />
-          </View>
-        </ScrollView>
-      </SafeAreaView>
-    </>
+    <View style={{alignItems: 'center', justifyContent: 'center', flex: 1}}>
+      <Animated.View style={value.getLayout()}>
+        <View
+          style={{
+            width: 100,
+            height: 100,
+            borderRadius: 100 / 2,
+            backgroundColor: 'red',
+          }}></View>
+      </Animated.View>
+      <TouchableOpacity
+        onPress={() => moveBall(!toggle)}
+        style={{backgroundColor: 'blue', padding: 10, margin: 10}}>
+        <Text>Click me!</Text>
+      </TouchableOpacity>
+    </View>
   );
 };
-
-const styles = StyleSheet.create({
-  scrollView: {
-    backgroundColor: Colors.lighter,
-  },
-  engine: {
-    position: 'absolute',
-    right: 0,
-  },
-  body: {
-    backgroundColor: Colors.white,
-  },
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: Colors.black,
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-    color: Colors.dark,
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-  footer: {
-    color: Colors.dark,
-    fontSize: 12,
-    fontWeight: '600',
-    padding: 4,
-    paddingRight: 12,
-    textAlign: 'right',
-  },
-});
 
 export default App;
