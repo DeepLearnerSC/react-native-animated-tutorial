@@ -10,7 +10,7 @@ const App = () => {
 
   function moveBall() {
     Animated.timing(leftValue, {
-      toValue: 500,
+      toValue: 1,
       duration: 5000,
       useNativeDriver: true,
     }).start();
@@ -29,13 +29,8 @@ const App = () => {
             width: 100,
             height: 100,
             borderRadius: 100 / 2,
-            transform: [
-              {
-                translateX: leftValue,
-              },
-            ],
             // marginLeft: leftValue,
-            // opacity: leftValue,
+            opacity: leftValue,
             backgroundColor: 'red',
           },
         ]}></Animated.View>
