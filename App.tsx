@@ -10,10 +10,15 @@ const App = () => {
 
   function moveBall() {
     Animated.timing(leftValue, {
-      toValue: 1000,
-      duration: 1000,
-      useNativeDriver: false,
+      toValue: 1,
+      duration: 5000,
+      useNativeDriver: true,
     }).start();
+    // because we are not using the native driver, and js thread is working a lot in the background
+    // the performance began to decrease
+    setTimeout(() => {
+      for (let i = 0; i < 5000000000; i++) {}
+    }, 1000);
   }
 
   return (
@@ -24,7 +29,8 @@ const App = () => {
             width: 100,
             height: 100,
             borderRadius: 100 / 2,
-            marginLeft: leftValue,
+            // marginLeft: leftValue,
+            opacity: leftValue,
             backgroundColor: 'red',
           },
         ]}></Animated.View>
