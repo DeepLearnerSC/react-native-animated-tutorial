@@ -6,19 +6,22 @@ import React, {useState} from 'react';
 import {View, Animated, TouchableOpacity, Text} from 'react-native';
 
 const App = () => {
-  const [leftValue] = useState(new Animated.Value(0));
+  const [opacity] = useState(new Animated.Value(0));
 
-  function moveBall() {
-    Animated.timing(leftValue, {
-      toValue: 500,
-      duration: 5000,
+  function fadeInBall() {
+    Animated.timing(opacity, {
+      toValue: 1,
+      duration: 1000,
       useNativeDriver: true,
     }).start();
-    // because we are not using the native driver, and js thread is working a lot in the background
-    // the performance began to decrease
-    setTimeout(() => {
-      for (let i = 0; i < 5000000000; i++) {}
-    }, 1000);
+  }
+
+  function fadeOutBall() {
+    Animated.timing(opacity, {
+      toValue: 0,
+      duration: 1000,
+      useNativeDriver: true,
+    }).start();
   }
 
   return (
@@ -29,21 +32,34 @@ const App = () => {
             width: 100,
             height: 100,
             borderRadius: 100 / 2,
-            transform: [
-              {
-                translateX: leftValue,
-              },
-            ],
-            // marginLeft: leftValue,
-            // opacity: leftValue,
+            opacity,
             backgroundColor: 'red',
           },
         ]}></Animated.View>
 
       <TouchableOpacity
-        onPress={() => moveBall()}
-        style={{backgroundColor: 'blue', padding: 10, margin: 10}}>
-        <Text>Click me!</Text>
+        onPress={() => fadeInBall()}
+        style={{
+          backgroundColor: 'blue',
+          padding: 10,
+          margin: 10,
+          width: 90,
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+        <Text>Fade In!</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        onPress={() => fadeOutBall()}
+        style={{
+          backgroundColor: 'blue',
+          padding: 10,
+          margin: 10,
+          width: 90,
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+        <Text>Fade Out!</Text>
       </TouchableOpacity>
     </View>
   );
